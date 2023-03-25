@@ -2,16 +2,25 @@
 @section('title') Edit Post @endsection
 
 @section('content')
-<form method="post" action="{{route('posts.update',$posts->id)}}" >
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+<form class="mx-5" method="post" action="{{route('posts.update',$posts->id)}}" >
     @csrf
     @method('PUT')
     <div class="form-group"  >
         <label for="exampleFormControlInput1">Title</label>
-        <input  name="title" class="form-control" id="exampleFormControlInput1" placeholder="">
+        <input  name="title" class="form-control" id="exampleFormControlInput1" placeholder="{{$posts->title}}" value="{{$posts->title}}">
       </div>
       <div class="form-group">
           <label for="exampleFormControlInput1">Description</label>
-          <input name="description" class="form-control" id="exampleFormControlInput1" placeholder="">
+          <input name="description" class="form-control" id="exampleFormControlInput1" placeholder="{{$posts->description}}" value="{{$posts->description}}">
       </div>
 
 

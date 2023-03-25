@@ -8,6 +8,9 @@
         Post Info
     </div>
     <div class="card-body">
+        @if ($posts->image)
+        <img src="{{ Storage::url($posts->image) }}" alt="Post image">
+        @endif
         <h5 class="card-title">Title: {{$posts->title}}</h5>
         <p class="card-text">Description: {{$posts->description}}</p>
         <p class="card-text">posted at: {{$posts->created_at}}</p>

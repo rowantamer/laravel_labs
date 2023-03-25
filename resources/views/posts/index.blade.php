@@ -13,6 +13,7 @@
             <th scope="col">Title</th>
             <th scope="col">Posted By</th>
             <th scope="col">Created At</th>
+            <th scope="col">slug</th>
             <th scope="col">Actions</th>
         </tr>
         </thead>
@@ -23,6 +24,7 @@
                 <td>{{$post->title}}</td>
                 <td>{{$post->User->name}}</td>
                 <td>{{$post->created_at}}</td>
+                <td>{{ Str::slug($post->title)}}</td>
                 <td>
                     <form action="{{route('posts.destroy',$post->id)}}" method="post">
                         @csrf
@@ -33,6 +35,7 @@
                     </form>
 
                 </td>
+
             </tr>
             @endforeach
 

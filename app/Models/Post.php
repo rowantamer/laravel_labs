@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Models;
+
 use Carbon\Carbon;
 
 
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 
 class Post extends Model
@@ -18,15 +20,31 @@ class Post extends Model
         'user_id',
 
     ];
-    public function  getCreatedAtAttribute($value){
+    public function getCreatedAtAttribute($value)
+    {
         return carbon::parse($value)->format('Y-m-d');
     }
-    public $dates=[];
-    public function  User(){
+    public $dates = [];
+    public function User()
+    {
         return $this->belongsTo(User::class)->withDefault();
     }
     public function comments()
-{
-    return $this->morphMany(Comment::class, 'commentable');
-}
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
+    protected static function booted()
+    {
+        static::deleted(function ($post) {
+            Storage::delete('public/images/' . $post->image);
+        });
+    }
 }
