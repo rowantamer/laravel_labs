@@ -3,6 +3,7 @@
 use App\Http\Controllers\commentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +35,12 @@ Route::group(['middleware' => 'auth'],function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('github')->redirect();
+});
+
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('github')->stateless()->user();
+
+    // $user->token
+});

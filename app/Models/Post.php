@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 class Post extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'title',
         'description',
@@ -24,10 +25,10 @@ class Post extends Model
     {
         return carbon::parse($value)->format('Y-m-d');
     }
-    public $dates = [];
     public function User()
     {
         return $this->belongsTo(User::class)->withDefault();
+
     }
     public function comments()
     {
@@ -47,4 +48,6 @@ class Post extends Model
             Storage::delete('public/images/' . $post->image);
         });
     }
+
 }
+$posts = Post::with('user')->get();
